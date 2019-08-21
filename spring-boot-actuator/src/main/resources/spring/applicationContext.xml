@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:apollo="http://www.ctrip.com/schema/apollo" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-4.0.xsd
+      http://www.ctrip.com/schema/apollo http://www.ctrip.com/schema/apollo.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+       default-lazy-init="false">
+    <!-- 自动扫描 -->
+    <context:component-scan
+            base-package="com.xinyan.boot"/>
+
+
+    <!--apollo私有配置-->
+    <apollo:config/>
+    <!--apollo共有配置redis-->
+    <apollo:config namespaces="OPERATION.redis.credit"/>
+    <apollo:config namespaces="OPERATION.CREDIT_DECISION_ENGINE"/>
+    <apollo:config namespaces="OPERATION.zk.credit"/>
+    <apollo:config namespaces="OPERATION.dfs.credit"/>
+    <apollo:config namespaces="OPERATION.eureka.credit"/>
+    <apollo:config namespaces="OPERATION.kafka.credit"/>
+
+    <!--数据库连接配置-->
+    <import resource="spring-datasources.xml"/>
+    <import resource="redis.xml"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>

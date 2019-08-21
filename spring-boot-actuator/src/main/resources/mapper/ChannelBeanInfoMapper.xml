@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinyan.boot.mapper.ChannelBeanInfoMapper">
+
+	<resultMap id="BaseResultMap" type="com.xinyan.boot.model.ChannelBeanInfo">
+		<result column="ID"		 jdbcType="INTEGER"		 property="id"/>
+		<result column="BEAN_NAME"		 jdbcType="VARCHAR"		 property="beanName"/>
+		<result column="BEAN_DESC"		 jdbcType="VARCHAR"		 property="beanDesc"/>
+		<result column="BEAN_CONTENT"		 jdbcType="LONGVARBINARY"		 property="beanContent"/>
+		<result column="DELETE_FLAG"		 jdbcType="VARCHAR"		 property="deleteFlag"/>
+		<result column="CREATED_BY"		 jdbcType="VARCHAR"		 property="createdBy"/>
+		<result column="CREATED_AT"		 jdbcType="TIMESTAMP"		 property="createdAt"/>
+		<result column="UPDATED_AT"		 jdbcType="TIMESTAMP"		 property="updatedAt"/>
+		<result column="UPDATED_BY"		 jdbcType="VARCHAR"		 property="updatedBy"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		 ID, BEAN_NAME, BEAN_DESC, BEAN_CONTENT, DELETE_FLAG, CREATED_BY,
+		 CREATED_AT, UPDATED_AT, UPDATED_BY
+	</sql>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM CHANNEL_BEAN_INFO
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</select>
+	<insert id="insert" parameterType="com.xinyan.boot.model.ChannelBeanInfo" useGeneratedKeys="true"
+				keyProperty="id">
+		INSERT INTO CHANNEL_BEAN_INFO(
+		 BEAN_NAME, BEAN_DESC, BEAN_CONTENT, DELETE_FLAG, CREATED_BY,
+		 CREATED_AT
+		 )VALUES( 
+			#{beanName,jdbcType=VARCHAR},#{beanDesc,jdbcType=VARCHAR},#{beanContent,jdbcType=LONGVARBINARY},#{deleteFlag,jdbcType=VARCHAR},#{createdBy,jdbcType=VARCHAR},
+		CURRENT_TIMESTAMP
+		)
+	</insert>
+
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true">
+		INSERT INTO CHANNEL_BEAN_INFO(
+		 BEAN_NAME, BEAN_DESC, BEAN_CONTENT, DELETE_FLAG, CREATED_BY,
+		 CREATED_AT
+		 )VALUES
+		<foreach collection="list" index="index" item="item" separator=",">
+		(
+		#{item.beanName,jdbcType=VARCHAR},#{item.beanDesc,jdbcType=VARCHAR},#{item.beanContent,jdbcType=LONGVARBINARY},#{item.deleteFlag,jdbcType=VARCHAR},#{item.createdBy,jdbcType=VARCHAR},
+		CURRENT_TIMESTAMP
+		)
+		</foreach>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.xinyan.boot.model.ChannelBeanInfo">
+		UPDATE CHANNEL_BEAN_INFO
+		<set>
+			<if test="beanName != null">
+		        BEAN_NAME = #{beanName,jdbcType=VARCHAR},
+			</if>
+			<if test="beanDesc != null">
+		        BEAN_DESC = #{beanDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="beanContent != null">
+		        BEAN_CONTENT = #{beanContent,jdbcType=LONGVARBINARY},
+			</if>
+			<if test="deleteFlag != null">
+		        DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR},
+			</if>
+			UPDATED_AT = CURRENT_TIMESTAMP,
+			<if test="updatedBy != null">
+		        UPDATED_BY = #{updatedBy,jdbcType=VARCHAR},
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<delete id="delete" parameterType="com.xinyan.boot.model.ChannelBeanInfo">
+		UPDATE CHANNEL_BEAN_INFO
+		SET DELETE_FLAG=1
+		WHERE id=#{id,jdbcType=INTEGER}
+	</delete>
+
+	<select id="selectBySelective" parameterType="com.xinyan.boot.model.ChannelBeanInfo"
+					resultMap="BaseResultMap">
+			SELECT
+			<include refid="Base_Column_List"/>
+			FROM CHANNEL_BEAN_INFO
+			<where>
+				<if test="id != null">
+				AND ID = #{id,jdbcType=VARCHAR}
+				</if>
+				<if test="beanName != null">
+				AND BEAN_NAME = #{beanName,jdbcType=VARCHAR}
+				</if>
+				<if test="beanDesc != null">
+				AND BEAN_DESC = #{beanDesc,jdbcType=VARCHAR}
+				</if>
+				<if test="beanContent != null">
+				AND BEAN_CONTENT = #{beanContent,jdbcType=VARCHAR}
+				</if>
+				<if test="deleteFlag != null">
+				AND DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR}
+				</if>
+				<if test="createdBy != null">
+				AND CREATED_BY = #{createdBy,jdbcType=VARCHAR}
+				</if>
+				<if test="createdAt != null">
+				AND CREATED_AT = #{createdAt,jdbcType=VARCHAR}
+				</if>
+				<if test="updatedAt != null">
+				AND UPDATED_AT = #{updatedAt,jdbcType=VARCHAR}
+				</if>
+				<if test="updatedBy != null">
+				AND UPDATED_BY = #{updatedBy,jdbcType=VARCHAR}
+				</if>
+		</where>
+		ORDER BY ID DESC
+	</select>
+
+</mapper>

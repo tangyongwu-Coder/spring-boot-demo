@@ -1,0 +1,60 @@
+spring:
+  http:
+    encoding:
+      charset: utf-8
+      force: false
+      enabled: false
+  mvc:
+    favicon:
+      enabled: false
+  jmx:
+    enabled: false
+  application:
+    name: myDemo001
+
+server:
+  port: 8888
+  servlet:
+    context-path: /demo
+#  对外提供服务路径
+  ssl:
+    enabled: false
+  error:
+    whitelabel:
+      enabled: false
+info:
+  app:
+    name: "@parent.artifactId@"         #从pom.xml中获取
+    description: "@project.description@"
+    version: "@project.version@"
+    spring-boot-version: "@spring.boot.version@"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*' #开启包含端点,也可以用exclude排除
+      base-path: /manager #基础路径 actuator/health -> manager/health
+  endpoint:
+    health:
+      show-details: always #展示监控检查明细,不开启只能显示status
+      cache:
+        time-to-live: 5000
+    shutdown:
+      enabled: true        #允许应用以优雅的方式关闭（默认情况下不启用）
+    metrics:
+      enabled: true
+  server:
+    port: 9527  #修改端口号
+    servlet:
+      context-path: /management  #上下文路径(增加前置路径) actuator/health -> management/actuator/health
+
+eureka:
+   client:
+     serviceUrl:
+       defaultZone: ${credit.eureka.address}
+     healthcheck:
+       enabled: true #这个属性不会提示
+   instance:
+     preferIpAddress: true
+     instance-id: ${spring.cloud.client.ip-address}:${server.port}
