@@ -1,5 +1,6 @@
 package com.xinyan.boot.controller;
 
+import com.system.commons.utils.DateUtil;
 import com.xinyan.boot.config.health.MyHealthChecker;
 import com.xinyan.boot.exception.MyException;
 import io.swagger.annotations.Api;
@@ -7,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 /**
  * @author 孟星魂
@@ -20,6 +23,15 @@ import org.springframework.web.bind.annotation.*;
 public class TestController {
     @Autowired
     private MyHealthChecker myHealthChecker;
+    @RequestMapping(value = "/log", method = RequestMethod.GET)
+    public String log() {
+        log.debug("debug日志,打印时间,{}", DateUtil.format(new Date(),DateUtil.settlePattern));
+        log.info("info日志,打印时间,{}", DateUtil.format(new Date(),DateUtil.settlePattern));
+        return "hello world";
+    }
+
+
+
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String testHello() {
