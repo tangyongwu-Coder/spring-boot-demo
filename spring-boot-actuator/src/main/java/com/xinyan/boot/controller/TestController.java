@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.Random;
 
 /**
  * @author 孟星魂
@@ -35,6 +36,17 @@ public class TestController {
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String testHello() {
+        long l1 = System.currentTimeMillis();
+        Random random = new Random();
+        int result =random.nextInt(1000);
+        long l = result + 500L;
+
+        try{
+            Thread.sleep(l);
+        }catch (Exception e){
+
+        }
+        log.info("耗时{}",System.currentTimeMillis() - l1);
         return "hello world";
     }
 
@@ -50,6 +62,7 @@ public class TestController {
 
     @RequestMapping(value = "/error", method = RequestMethod.GET)
     public String testError() {
+        log.info("来了哈error");
         throw new MyException("1","2");
     }
 

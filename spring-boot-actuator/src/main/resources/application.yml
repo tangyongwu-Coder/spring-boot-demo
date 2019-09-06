@@ -10,7 +10,7 @@ spring:
   jmx:
     enabled: false
   application:
-    name: myDemo001
+    name: demo
 
 server:
   port: 8888
@@ -52,7 +52,7 @@ management:
 eureka:
    client:
      serviceUrl:
-       defaultZone: ${credit.eureka.address}
+       defaultZone: http://10.0.19.144:1100/eureka/,http://10.0.19.145:1100/eureka/
      healthcheck:
        enabled: true #这个属性不会提示
    instance:
